@@ -9,6 +9,7 @@ Enter your names here
 Part 1 (SDX Ch. 2):
 * Driver's name
 * Navigator's name
+
 Part 2 (SDX Ch. 4):
 * Driver's name
 * Navigator's name
