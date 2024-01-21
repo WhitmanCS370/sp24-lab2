@@ -1,5 +1,6 @@
 # sp24-lab2
-Lab 2, object-oriented programming and matching patterns.
+Lab 2, object-oriented programming and matching patterns. Adapted from [Software Design by Example](https://third-bit.com/sdxpy/) by Greg Wilson.
+
 _January 23, 2024_
 
 ## Team Members
