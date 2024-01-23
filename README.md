@@ -20,9 +20,5 @@ The main idea from this chapter is that we can build our own class-object system
 
 I forgot the chapter covered `varargs`.
 
-## Answer these questions before you start doing the exercises
-Write your answers to the questions below.
-
-* What were the main ideas from each chapter?
-* What questions did you have about the material in the chapters? What did you find confusing?
-
+## SDX Ch. 4 notes
+The main idea from this chapter is to build a globbing system using the Chain of Responsibility pattern and the Null Class pattern.
