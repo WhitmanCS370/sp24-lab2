@@ -49,6 +49,21 @@ def test_either_two_literals_neither():
 def test_either_two_literals_not_both():
     # /{a,b}/ doesn't match "ab"
     assert not Either([Lit("a"), Lit("b")]).match("ab")
+    
+def test_either_three_literals_middle():
+    assert Either([Lit("a"), Lit("b"), Lit("c")]).match("b")
+
+def test_either_three_literals_last():
+    assert Either([Lit("a"), Lit("b"), Lit("c")]).match("c")
+
+def test_either_three_literals_none():
+    assert not Either([Lit("a"), Lit("b"), Lit("c")]).match("x")
+
+def test_either_no_options():
+    assert not Either([]).match("")
+def test_either_no_options():
+    assert not Either([]).match("")
+    assert not Either([]).match("ab")
 
 def test_either_after_any():
     # /*{x,y}/ matches "abcx"
