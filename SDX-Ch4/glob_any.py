@@ -9,3 +9,5 @@ class Any:
             if self.rest.match(text, i):
                 return True
         return False
+
+#len(text + 1 is because Any (*) could potentially look at the next character in the literal, taking up one or more spaces in the string so len(text+1) captures that addition

@@ -25,3 +25,4 @@ We both felt that chapter two was pretty confusing because of the naming convent
 Chapter Four was easier to understand and covered a usage of a pattern in a very object oriented approach.
 * What questions did you have about the material in the chapters? What did you find confusing?
 why mimic classes with dictionaries and lists?
+
