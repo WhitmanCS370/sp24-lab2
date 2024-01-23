@@ -92,11 +92,11 @@ Circle = {
 }
 
 def find(cls, method_name):
-    if cls is None:
-        raise NotImplementedError("method_name")
-    if method_name in cls:
-        return cls[method_name]
-    return find(cls["_parent"], method_name)
+    while cls is not None:
+        if method_name in cls:
+            return cls[method_name]
+        cls = cls["_parent"]
+    raise NotImplementedError("method_name")
 
 def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
