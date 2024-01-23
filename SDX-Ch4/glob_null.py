@@ -2,6 +2,7 @@
 class Match:
     def __init__(self, rest):
         self.rest = rest if rest is not None else Null()
+        matchers=[Null(),Any(),Lit()]
 
     def match(self, text):
         result = self._match(text, 0)
@@ -29,6 +30,17 @@ class Any(Match):
                 return end
         return None
 # [/any]
+
+class Extend(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _match(self, text, start):
+        for i in range(start+1, len(text) + 1):
+            end = self.rest._match(text, i)
+            if end == len(text):
+                return end
+        return None
 
 # [either]
 class Either(Match):
@@ -59,3 +71,27 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+# [Charset]
+class Charset(Match):
+    def __init__(self, charset, rest=None):
+        super().__init__(rest)
+        self.charset = charset
+
+    def _match(self, text, start):
+        if text[start] not in self.charset:
+            return None
+        return self.rest._match(text)
+# [/Charset]
+
+# [Range]
+class Range(Match):
+    def __init__(self, charset, rest=None):
+        super().__init__(rest)
+        self.charset = charset
+
+    def _match(self, text, start):
+        if ord(text[start]) > in self.charset:
+            return None
+        return self.rest._match(text)
+# [/Range]

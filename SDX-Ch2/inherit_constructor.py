@@ -1,17 +1,30 @@
 import math
 
-def shape_density(thing, weight):
+
+
+def shape2D_density(thing, weight):
     return weight / call(thing, "area")
 
+def shape2D_new(name):
+    return {
+        "name": name,
+        "_class": Shape2D
+    }
+
+Shape2D = {
+    "density": shape_density, 
+    "_classname": "Shape2D",
+    "_parent": Shape,
+    "_new": shape2D_new
+    
+}
 # [shape]
 def shape_new(name):
     return {
         "name": name,
         "_class": Shape
     }
-
 Shape = {
-    "density": shape_density,
     "_classname": "Shape",
     "_parent": None,
     "_new": shape_new
@@ -40,7 +53,7 @@ Square = {
     "perimeter": square_perimeter,
     "area": square_area,
     "_classname": "Square",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": square_new
 }
 # [/square]
@@ -61,10 +74,44 @@ Circle = {
     "perimeter": circle_perimeter,
     "area": circle_area,
     "_classname": "Circle",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": circle_new
 }
+def line_length(thing):
+    return thing["length"]
 
+def line_new(name, length):
+    return make(Shape, name) | { 
+        "length": length,
+        "_class": Line
+    }
+    
+Line = {
+    "length": line_length,
+    "_classname": "Line",
+    "_parent": Shape,
+    "_new": line_new,
+    "_cache": {}
+}
+
+def type(thing):
+    return thing["_classname"]
+
+def isinstance(thing, type):
+    if thing["_parent"] != None:
+        if thing["_parent"] == type:
+            return True
+        else:
+            return isinstance(thing["_parent"], type)
+    return False    
+    
+def findloop(cls, method_name):
+    while cls is not None:
+        if method_name in cls:
+            return cls[method_name]
+        cls = cls["_parent"]
+    raise NotImplementedError("method_name")
+    
 def find(cls, method_name):
     if cls is None:
         raise NotImplementedError("method_name")
@@ -72,7 +119,7 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
     return method(thing, *args)
 
