@@ -17,7 +17,9 @@ class Null(Match):
         return start
 # [/null]
 
-# [any]
+# [any
+# The upper bound needs to be what it is, because if we stop at just
+# len(text), then we won't actually be reaching the end of the text.
 class Any(Match):
     def __init__(self, rest=None):
         super().__init__(rest)
@@ -32,13 +34,12 @@ class Any(Match):
 
 # [either]
 class Either(Match):
-    def __init__(self, left, right, rest=None):
+    def __init__(self, patterns, rest=None):
         super().__init__(rest)
-        self.left = left
-        self.right = right
+        self.patterns = patterns
 
     def _match(self, text, start):
-        for pat in [self.left, self.right]:
+        for pat in self.patterns:
             end = pat._match(text, start)
             if end is not None:
                 end = self.rest._match(text, end)
@@ -59,3 +60,43 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+# [nonempty]
+class Nonempty(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _match(self, text, start):
+        for i in range(start + 1, len(text) + 1):
+            end = self.rest._match(text, i)
+            if end == len(text):
+                return end
+        return None
+# [/nonempty]
+    
+# [charset]
+class Charset(Match):
+    def __init__(self, chars, rest=None):
+        super().__init__(rest)
+        self.chars = chars
+
+    def _match(self, text, start):
+        end = start + 1
+        if text[start] not in self.chars:
+            return None
+        return self.rest._match(text, end)
+# [/charset]
+    
+# [range]
+class Range(Match):
+    def __init__(self, startchar, endchar, rest=None):
+        super().__init__(rest)
+        self.startchar = startchar
+        self.endchar = endchar
+
+    def _match(self, text, start):
+        end = start + 1
+        if not (self.startchar <= text[start] <= self.endchar):
+            return None
+        return self.rest._match(text, end)
+# [/range]
