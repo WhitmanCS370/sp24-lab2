@@ -1,4 +1,4 @@
-from glob_null import Any, Either, Lit, One, OneOrMore, Charset
+from glob_null import Any, Either, Lit, One, OneOrMore, Charset, Range
 from inspect import getmembers, isfunction
 import sys
 
@@ -87,6 +87,15 @@ def test_charset():
     assert Any(Charset("?!.")).match("Hello?")
     assert not Any(Charset("?!.")).match("Hello ")
     assert not Any(Charset("?!.")).match("Hello")
+
+def test_range():
+    assert Range('a','z').match('a')
+    assert Range('a','z').match('b')
+    assert Range('a','z').match('q')
+    assert Range('a','z').match('z')
+    assert not Range('a','z').match('Q')
+    assert Any(Range('0','9')).match('abc1')
+    assert not Any(Range('0','9')).match('abc')
 
 if __name__ == '__main__':
     for f in getmembers(sys.modules[__name__], isfunction):

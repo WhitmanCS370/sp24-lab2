@@ -86,3 +86,14 @@ class Charset(Match):
         if start < len(text) and text[start] in self.chars:
             return self.rest._match(text, start+1)
         return None
+
+class Range(Match):
+    def __init__(self, first, last, rest=None):
+        super().__init__(rest)
+        self.first = first 
+        self.last = last
+        
+    def _match(self, text, start):
+        if start < len(text) and self.first <= text[start] <= self.last:
+            return self.rest._match(text, start+1)
+        return None
