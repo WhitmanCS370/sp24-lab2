@@ -1,9 +1,6 @@
 import math
 
-def shape_density(thing, weight):
-    return weight / call(thing, "area")
-
-# [shape]
+# [shapeD]
 def shape_new(name):
     return {
         "name": name,
@@ -11,12 +8,41 @@ def shape_new(name):
     }
 
 Shape = {
-    "density": shape_density,
     "_classname": "Shape",
     "_parent": None,
     "_new": shape_new
 }
 # [/shape]
+
+def line_new(name, length):
+    return {
+        "name": name,
+        "length": length,
+        "_class": Line
+    }
+
+Line = {
+    "_classname": "Line",
+    "_parent": Shape,
+    "_new": line_new    
+}
+
+def shape2D_density(thing, weight):
+    return weight / call(thing, "area")
+
+# [shape2D]
+def shape2D_new(name):
+    return shape_new(name) | {
+        "_class": Shape2D
+    }
+
+Shape2D = {
+    "density": shape2D_density,
+    "_classname": "Shape2D",
+    "_parent": Shape,
+    "_new": shape2D_new
+}
+# [/shape2D]
 
 # [make]
 def make(cls, *args):
@@ -40,7 +66,7 @@ Square = {
     "perimeter": square_perimeter,
     "area": square_area,
     "_classname": "Square",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": square_new
 }
 # [/square]
@@ -61,7 +87,7 @@ Circle = {
     "perimeter": circle_perimeter,
     "area": circle_area,
     "_classname": "Circle",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": circle_new
 }
 
@@ -77,9 +103,11 @@ def call(thing, method_name, *args, **kwargs):
     return method(thing, *args, **kwargs)
 
 # [call]
-examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
+examples = [make(Square, "sq", 3), 
+            make(Circle, "ci", 2), 
+            make(Line, "li", 5)]
 for ex in examples:
     n = ex["name"]
-    d = call(ex, "density", weight=5)
-    print(f"{n}: {d:.2f}")
+    c = ex["_class"]["_classname"]
+    print(f"{n}: {c}")
 # [/call]
