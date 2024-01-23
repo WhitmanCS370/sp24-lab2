@@ -105,12 +105,21 @@ def call(thing, method_name, *args, **kwargs):
 def type(thing):
     return thing["_class"]["_classname"]
 
+def isinstance(thing, targetclass):
+    currentclass = thing["_class"]
+    while currentclass != targetclass:
+        if currentclass["_parent"] is None:
+            return False
+        currentclass = currentclass["_parent"]
+    return True
+
 # [call]
 examples = [make(Square, "sq", 3), 
             make(Circle, "ci", 2), 
             make(Line, "li", 5)]
 for ex in examples:
     n = ex["name"]
-    t = type(ex)
-    print(f"{n}: {t}")
+    b = isinstance(ex, Shape2D)
+    print(f"{n}: {b}")
+
 # [/call]
