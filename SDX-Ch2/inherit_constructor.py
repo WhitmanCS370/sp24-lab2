@@ -10,13 +10,28 @@ def shape_new(name):
         "_class": Shape
     }
 
+
 Shape = {
-    "density": shape_density,
     "_classname": "Shape",
     "_parent": None,
     "_new": shape_new
 }
 # [/shape]
+
+def shape_new2D(name):
+    return {
+        "name": name,
+        "_class": Shape2D
+    }
+
+Shape2D = {
+    "density": shape_density,
+    "_classname": "Shape",
+    "_parent": Shape,
+    "_new": shape_new2D
+}
+
+
 
 # [make]
 def make(cls, *args):
@@ -57,13 +72,28 @@ def circle_new(name, radius):
         "_class": Circle
     }
 
+
 Circle = {
     "perimeter": circle_perimeter,
     "area": circle_area,
     "_classname": "Circle",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": circle_new
 }
+
+def line_new(name, length):
+    return make(Shape, name) | {
+        "length": length,
+        "_class": Line
+    }
+
+Line = {
+    "_parent": Shape,
+    "_new": line_new
+}
+
+def type(thing):
+    return thing["_classname"]
 
 def find(cls, method_name):
     if cls is None:
@@ -72,9 +102,10 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, 
+         **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
