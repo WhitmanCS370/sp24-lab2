@@ -5,6 +5,23 @@ class Match:
     def match(self, text):
         return self._do_match(text) == ""
 
+class Range(Match):
+     def __init__(self, a, b, text):
+         self.text = text
+        self.a = a
+        self.b = b
+    def Range(a,b);
+        if ord(a) <= ord(b):
+            return character_list = [chr(x) for x in range(ord(a), ord(b) + 1)]
+        else: 
+            return Range(b,a)
+
+        for i in character_list:
+            if i in text:
+                return i
+        return None 
+    
+
 class Plus(Match):
      def __init__(self, rest=None):
         super().__init__(rest)
@@ -16,7 +33,15 @@ class Plus(Match):
          for i in range(len(text) + 1): 
             if self.rest._do_match(text[i:]) == "":
                 return ""
-        
+class Charset(Match):
+     def __init__(self, rest=None):
+        super().__init__(rest)
+         
+        for i in (set):
+             if i in text:
+                 return i
+        return None 
+    
 
 class Nothing(Match):
     def __init__(self, rest=None):
