@@ -36,4 +36,4 @@ What were the main ideas from chapter 4:
 What questions did you have about the material in chapter 4? What did you find confusing
     Are null objects only used for comparasion?
 
-1. 
+1. We use the extra index when iterating to check if there is anything else after the end of the word. 
