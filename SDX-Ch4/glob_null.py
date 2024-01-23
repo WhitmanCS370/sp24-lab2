@@ -59,3 +59,17 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+class Plus(Match):
+    def __init__(self, char, rest=None):
+        super().__init__(rest)
+        self.char = char
+
+    def _match(self, text, start):
+        for i in range(start, len(text) + 1):
+            
+            end = self.rest._match(text, i)
+            if end == len(text):
+                return end
+        return None
+    
