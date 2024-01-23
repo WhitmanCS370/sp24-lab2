@@ -29,6 +29,20 @@ class Any(Match):
                 return end
         return None
 # [/any]
+    
+class Plus(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+        self.hasMatched = False
+
+    def _match(self, text, start):
+        if self.rest is None:
+            return self.hasMatched
+        for i in range(start, len(text)):
+            if self.rest.match(text, i):
+                self.hasMatched = True
+                return True
+        return False
 
 # [either]
 class Either(Match):
