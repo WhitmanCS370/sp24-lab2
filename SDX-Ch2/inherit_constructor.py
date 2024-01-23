@@ -72,9 +72,9 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
