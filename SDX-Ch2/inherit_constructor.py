@@ -23,7 +23,7 @@ def my_type(thing):
         return thing["_classname"]
     else:
         parent = thing["_parent"]
-        my_type(parent["_parent"])
+        return my_type(parent["_parent"])
 
 
 # line
