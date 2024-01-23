@@ -4,7 +4,7 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+Molly Halverson
 
 ## Team Roles
 Part 1 (SDX Ch. 2):
@@ -19,5 +19,9 @@ Part 2 (SDX Ch. 4):
 Write your answers to the questions below.
 
 * What were the main ideas from each chapter?
-* What questions did you have about the material in the chapters? What did you find confusing?
+The main idea from chapter 2 was the difference and relationship between objects, classes, and arguments. Furthermore, I found the idea of polymorphism to be important when talking about objects.
 
+From chapter 4, pattern matching was the big idea. I found the design patterns Null Object and Chain of Responsibility to be highly important. 
+
+* What questions did you have about the material in the chapters? What did you find confusing?
+I'm still confused about the pattern Extract Parent Cass.
