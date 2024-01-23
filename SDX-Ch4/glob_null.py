@@ -23,6 +23,8 @@ class Any(Match):
         super().__init__(rest)
 
     def _match(self, text, start):
+        # We need the plus one here because we want to match at least one character.
+        # If we didn't, then we would match the empty string, which is not what we want.
         for i in range(start, len(text) + 1):
             end = self.rest._match(text, i)
             if end == len(text):
@@ -59,3 +61,32 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+    
+# [AnyPlus]
+class AnyPlus(Any):
+    # should match for atleast one or more characters but not the empty string
+    def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _match(self, text, start):
+        if len(text) == 0:
+            return None 
+        # We need the plus one here because we want to match at least one character.
+        # If we didn't, then we would match the empty string, which is not what we want.
+        for i in range(start, len(text) + 1):
+            end = self.rest._match(text, i)
+            if end == len(text):
+                return end
+        return None
+    
+class Charset(Match):
+    def __init__(self, chars, rest=None):
+        super().__init__(rest)
+        self.chars = chars
+
+    # checks that a character is in the set of characters
+    def _match(self, text, start):
+        end = start + 1
+        if text[start:end] in self.chars:
+            return self.rest._match(text, end)
+        return None

@@ -10,11 +10,16 @@ def shape_new(name):
         "_class": Shape
     }
 
+# def shape_instanceof(thing):
+#     return 
+
 Shape = {
     "density": shape_density,
     "_classname": "Shape",
     "_parent": None,
-    "_new": shape_new
+    "_new": shape_new,
+    "_type": lambda x: type(x) is dict and x["_classname"] == "Shape",
+    "_instanceof": lambda x: isinstance(x, dict) and x["_classname"] == "Shape"
 }
 # [/shape]
 
@@ -41,7 +46,8 @@ Square = {
     "area": square_area,
     "_classname": "Square",
     "_parent": Shape,
-    "_new": square_new
+    "_new": square_new,
+    "_instanceof": lambda x: isinstance(x, dict) and x["_classname"] == "Square" or x["_new"]["_class"]
 }
 # [/square]
 
@@ -62,7 +68,8 @@ Circle = {
     "area": circle_area,
     "_classname": "Circle",
     "_parent": Shape,
-    "_new": circle_new
+    "_new": circle_new,
+    "_instanceof": lambda x: isinstance(x, dict) and x["_classname"] == "Circle"
 }
 
 def find(cls, method_name):
@@ -72,9 +79,12 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
+
+#def type()
+    
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
@@ -83,3 +93,5 @@ for ex in examples:
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
 # [/call]
+
+
