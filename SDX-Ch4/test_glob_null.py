@@ -1,4 +1,6 @@
-from glob_null import Any, Either, Lit
+from glob_null import Any, Either, Lit, One, OneOrMore, Charset, Range
+from inspect import getmembers, isfunction
+import sys
 
 def test_literal_match_entire_string():
     # /abc/ matches "abc"
@@ -34,28 +36,83 @@ def test_any_matches_interior():
 
 def test_either_two_literals_first():
     # /{a,b}/ matches "a"
-    assert Either(Lit("a"), Lit("b")).match("a")
+    assert Either([Lit("a"), Lit("b")]).match("a")
 
 def test_either_two_literals_second():
     # /{a,b}/ matches "b"
-    assert Either(Lit("a"), Lit("b")).match("b")
+    assert Either([Lit("a"), Lit("b")]).match("b")
 
 def test_either_two_literals_neither():
     # /{a,b}/ doesn't match "c"
-    assert not Either(Lit("a"), Lit("b")).match("c")
+    assert not Either([Lit("a"), Lit("b")]).match("c")
 
 def test_either_two_literals_not_both():
     # /{a,b}/ doesn't match "ab"
-    assert not Either(Lit("a"), Lit("b")).match("ab")
+    assert not Either([Lit("a"), Lit("b")]).match("ab")
+    
+def test_either_three_literals_middle():
+    assert Either([Lit("a"), Lit("b"), Lit("c")]).match("b")
+
+def test_either_three_literals_last():
+    assert Either([Lit("a"), Lit("b"), Lit("c")]).match("c")
+
+def test_either_three_literals_none():
+    assert not Either([Lit("a"), Lit("b"), Lit("c")]).match("x")
+
+def test_either_no_options():
+    assert not Either([]).match("")
+def test_either_no_options():
+    assert not Either([]).match("")
+    assert not Either([]).match("ab")
 
 def test_either_after_any():
     # /*{x,y}/ matches "abcx"
-    assert Any(Either(Lit("x"), Lit("y"))).match("abcx")
+    assert Any(Either([Lit("x"), Lit("y")])).match("abcx")
 
 def test_either_leading_or_trailing():
     # /{*x,y*}/ matches "abx"
     # /{*x,y*}/ matches "yab"
     # /{*x,y*}/ matches "yabx"
-    assert Either(Any(Lit("x")), Lit("y", Any())).match("abx")
-    assert Either(Any(Lit("x")), Lit("y", Any())).match("yab")
-    assert Either(Any(Lit("x")), Lit("y", Any())).match("yabx")
+    assert Either([Any(Lit("x")), Lit("y", Any())]).match("abx")
+    assert Either([Any(Lit("x")), Lit("y", Any())]).match("yab")
+    assert Either([Any(Lit("x")), Lit("y", Any())]).match("yabx")
+
+def test_match_one():
+    assert One().match("x")
+    assert not One().match("")
+    assert not One().match("xxxx")
+    assert One(Lit("x")).match("ax")
+    assert not One(Lit("x")).match("x")
+    
+def test_match_one_or_more():
+    assert OneOrMore().match("x")
+    assert OneOrMore().match("xxxx")
+    assert not OneOrMore().match("")
+    assert OneOrMore(Lit("x")).match("ax")
+    assert OneOrMore(Lit("x")).match("aaaax")    
+    assert not OneOrMore(Lit("x")).match("x")
+    
+def test_charset():
+    assert Charset("?!.").match("?")
+    assert Charset("?!.").match("!")
+    assert Charset("?!.").match(".")
+    assert not Charset("?!.").match(" ")
+    assert not Charset("?!.").match("")
+    assert Any(Charset("?!.")).match("Hello!")
+    assert Any(Charset("?!.")).match("Hello?")
+    assert not Any(Charset("?!.")).match("Hello ")
+    assert not Any(Charset("?!.")).match("Hello")
+
+def test_range():
+    assert Range('a','z').match('a')
+    assert Range('a','z').match('b')
+    assert Range('a','z').match('q')
+    assert Range('a','z').match('z')
+    assert not Range('a','z').match('Q')
+    assert Any(Range('0','9')).match('abc1')
+    assert not Any(Range('0','9')).match('abc')
+
+if __name__ == '__main__':
+    for f in getmembers(sys.modules[__name__], isfunction):
+        if f[0].startswith('test_'):
+            f[1]()

@@ -1,4 +1,7 @@
 # [parent]
+from typing import Any
+
+
 class Match:
     def __init__(self, rest):
         self.rest = rest if rest is not None else Null()
@@ -30,15 +33,27 @@ class Any(Match):
         return None
 # [/any]
 
+class One(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+        
+    def _match(self, text, start):
+        if start < len(text):
+            return self.rest._match(text, start+1)
+        return None
+        
+class OneOrMore(One):
+    def __init__(self, rest=None):
+        super().__init__(Any(rest))
+
 # [either]
 class Either(Match):
-    def __init__(self, left, right, rest=None):
+    def __init__(self, options, rest=None):
         super().__init__(rest)
-        self.left = left
-        self.right = right
+        self.options = options
 
     def _match(self, text, start):
-        for pat in [self.left, self.right]:
+        for pat in self.options:
             end = pat._match(text, start)
             if end is not None:
                 end = self.rest._match(text, end)
@@ -59,3 +74,24 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+class Charset(Match):
+    def __init__(self, chars, rest=None):
+        super().__init__(rest)
+        self.chars = chars
+        
+    def _match(self, text, start):
+        if start < len(text) and text[start] in self.chars:
+            return self.rest._match(text, start+1)
+        return None
+
+class Range(Match):
+    def __init__(self, first, last, rest=None):
+        super().__init__(rest)
+        self.first = first 
+        self.last = last
+        
+    def _match(self, text, start):
+        if start < len(text) and self.first <= text[start] <= self.last:
+            return self.rest._match(text, start+1)
+        return None

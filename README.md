@@ -4,9 +4,9 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+Janet Davis 
 
-## Team Roles
+## Team Roles - N/A
 Part 1 (SDX Ch. 2):
 * Driver's name
 * Navigator's name
@@ -15,9 +15,10 @@ Part 2 (SDX Ch. 4):
 * Driver's name
 * Navigator's name
 
-## Answer these questions before you start doing the exercises
-Write your answers to the questions below.
+## SDX Ch. 2 notes
+The main idea from this chapter is that we can build our own class-object system with inheritance using dictionaries!
 
-* What were the main ideas from each chapter?
-* What questions did you have about the material in the chapters? What did you find confusing?
+I forgot the chapter covered `varargs`.
 
+## SDX Ch. 4 notes
+The main idea from this chapter is to build a globbing system using the Chain of Responsibility pattern and the Null Class pattern.
