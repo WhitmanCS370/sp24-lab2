@@ -18,12 +18,30 @@ class Null(Match):
 # [/null]
 
 # [any]
+
+"""
+Part 2.1
+The len(text)+1 accounts for the final charater of the text to match because of zero indexing
+"""
+
 class Any(Match):
     def __init__(self, rest=None):
         super().__init__(rest)
 
     def _match(self, text, start):
         for i in range(start, len(text) + 1):
+            end = self.rest._match(text, i)
+            if end == len(text):
+                return end
+        return None
+# [/any]
+
+class AnyPlusOne(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _match(self, text, start):
+        for i in range(start + 1, len(text) + 1):
             end = self.rest._match(text, i)
             if end == len(text):
                 return end
@@ -59,3 +77,20 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+# [either]
+class Charset(Match):
+    def __init__(self, left, right, rest=None):
+        super().__init__(rest)
+        self.left = left
+        self.right = right
+
+    def _match(self, text, start):
+        for pat in [self.left, self.right]:
+            end = pat._match(text, start)
+            if end is not None:
+                end = self.rest._match(text, end)
+                if end == len(text):
+                    return end
+        return None
+# [/either]
