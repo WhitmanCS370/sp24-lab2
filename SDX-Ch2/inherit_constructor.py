@@ -102,12 +102,15 @@ def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
     return method(thing, *args, **kwargs)
 
+def type(thing):
+    return thing["_class"]["_classname"]
+
 # [call]
 examples = [make(Square, "sq", 3), 
             make(Circle, "ci", 2), 
             make(Line, "li", 5)]
 for ex in examples:
     n = ex["name"]
-    c = ex["_class"]["_classname"]
-    print(f"{n}: {c}")
+    t = type(ex)
+    print(f"{n}: {t}")
 # [/call]
