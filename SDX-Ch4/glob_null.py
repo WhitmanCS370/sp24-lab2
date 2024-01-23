@@ -38,9 +38,8 @@ class One(Match):
         super().__init__(rest)
         
     def _match(self, text, start):
-        end = self.rest._match(text, start+1)
-        if end == len(text):
-            return end
+        if start < len(text):
+            return self.rest._match(text, start+1)
         return None
         
 class OneOrMore(One):
