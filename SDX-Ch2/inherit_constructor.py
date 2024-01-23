@@ -46,6 +46,7 @@ Line = {
 
 
 Shape2D = {
+    "_cache" : {},
     "area" : shape2D_area,
     "perimeter" : shape2D_perimeter,
     "_parent" : "Shape",
