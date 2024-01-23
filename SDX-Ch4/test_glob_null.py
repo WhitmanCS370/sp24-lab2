@@ -1,4 +1,6 @@
 from glob_null import Any, Either, Lit
+from inspect import getmembers, isfunction
+import sys
 
 def test_literal_match_entire_string():
     # /abc/ matches "abc"
@@ -59,3 +61,8 @@ def test_either_leading_or_trailing():
     assert Either(Any(Lit("x")), Lit("y", Any())).match("abx")
     assert Either(Any(Lit("x")), Lit("y", Any())).match("yab")
     assert Either(Any(Lit("x")), Lit("y", Any())).match("yabx")
+
+if __name__ == '__main__':
+    for f in getmembers(sys.modules[__name__], isfunction):
+        if f[0].startswith('test_'):
+            f[1]()
