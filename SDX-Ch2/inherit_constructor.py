@@ -65,6 +65,19 @@ Circle = {
     "_new": circle_new
 }
 
+def line_new(name, lineLength):
+    return make(Shape, name) | {
+        "length": lineLength,
+        "_class": Line
+    }
+
+Line = {
+        "length": "lineLength",
+        "_classname": "Line",
+        "_new": line_new,
+        "_parent": Shape,
+}
+
 def find(cls, method_name):
     if cls is None:
         raise NotImplementedError("method_name")
@@ -72,13 +85,20 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
-examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
+examples = [make(Square, "sq", 3), make(Circle, "ci", 2), make(Line, "ln", 5)]
 for ex in examples:
+    n = ex["name"]
+    d = call(ex, "density", 5)
+    print(f"{n}: {d:.2f}")
+
+#test kwawrgs
+kExamples = {"argOne": make(Square, "sq", 3), "argTwo": make(Circle, "ci", 2)}
+for ex in kExamples.values():
     n = ex["name"]
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
