@@ -13,10 +13,38 @@ def shape_new(name):
 Shape = {
     "density": shape_density,
     "_classname": "Shape",
-    "_parent": None,
+    "_parent": Shape2D,
     "_new": shape_new
 }
 # [/shape]
+
+
+# line
+
+def line_new(name, length):
+    return {
+        "name": name,
+        "_length" : length,
+        "_class": Line
+    }
+def line_length(thing):
+    return thing['length']
+
+Line = {
+    "length" : line_length,
+    "_classname": "Line",
+    "_parent" : Shape,
+    "_new" : line_new,
+}
+
+
+Shape2D = {
+    "area" : shape2D_area,
+    "perimeter" : shape2D_perimeter,
+    "_parent" : "Shape",
+    "_new" : shape2d_new,
+    "_classname" : Shape2D
+}
 
 # [make]
 def make(cls, *args):
@@ -58,10 +86,8 @@ def circle_new(name, radius):
     }
 
 Circle = {
-    "perimeter": circle_perimeter,
-    "area": circle_area,
     "_classname": "Circle",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": circle_new
 }
 
