@@ -1,4 +1,4 @@
-from glob_null import Any, Either, Lit
+from glob_null import Any, Either, Lit, One
 from inspect import getmembers, isfunction
 import sys
 
@@ -61,6 +61,13 @@ def test_either_leading_or_trailing():
     assert Either(Any(Lit("x")), Lit("y", Any())).match("abx")
     assert Either(Any(Lit("x")), Lit("y", Any())).match("yab")
     assert Either(Any(Lit("x")), Lit("y", Any())).match("yabx")
+
+def test_match_one():
+    assert One().match("x")
+    assert not One().match("")
+    assert not One().match("xxxx")
+    assert One(Lit("x")).match("ax")
+    assert not One(Lit("x")).match("x")
 
 if __name__ == '__main__':
     for f in getmembers(sys.modules[__name__], isfunction):

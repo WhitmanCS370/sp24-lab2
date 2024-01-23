@@ -1,4 +1,7 @@
 # [parent]
+from typing import Any
+
+
 class Match:
     def __init__(self, rest):
         self.rest = rest if rest is not None else Null()
@@ -29,6 +32,20 @@ class Any(Match):
                 return end
         return None
 # [/any]
+
+class One(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+        
+    def _match(self, text, start):
+        end = self.rest._match(text, start+1)
+        if end == len(text):
+            return end
+        return None
+        
+class OneOrMore(One):
+    def __init__(self, rest=None):
+        super().__init__(Any(rest))
 
 # [either]
 class Either(Match):
