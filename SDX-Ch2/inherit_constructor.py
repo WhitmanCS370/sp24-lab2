@@ -74,7 +74,7 @@ def find(cls, method_name):
 
 def call(thing, method_name, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
