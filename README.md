@@ -4,11 +4,13 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+
+Oliver Baltzer
+Jas Liu
 
 ## Team Roles
 Part 1 (SDX Ch. 2):
-* Driver's name
+* Driver's name Oliver Baltzer
 * Navigator's name
 
 Part 2 (SDX Ch. 4):
@@ -19,5 +21,7 @@ Part 2 (SDX Ch. 4):
 Write your answers to the questions below.
 
 * What were the main ideas from each chapter?
+We both felt that chapter two was pretty confusing because of the naming conventions and the usage of list and dictionaries to mimic class structure.
+Chapter Four was easier to understand and covered a usage of a pattern in a very object oriented approach.
 * What questions did you have about the material in the chapters? What did you find confusing?
-
+why mimic classes with dictionaries and lists?
