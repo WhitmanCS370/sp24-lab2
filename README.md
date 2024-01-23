@@ -22,6 +22,10 @@ Write your answers to the questions below.
 
 Chapter 2: We learned to implement classes using dictionaries, in hope of getting under-the-hood on how classes really work. It also touches on inheritence and sharing methods between classes.
 
+Chapter 4: We learned about pattern matching and regular expressions. 
+
 * What questions did you have about the material in the chapters? What did you find confusing?
 
 Chapter 2: Why do it this way? Why learn how to implement objects using dictionaries instead of just using the object framework already in python?
+
+Chapter 4: We don't get the implementation in the textbook! It's very unclear how the match family of classes matches text at all.
