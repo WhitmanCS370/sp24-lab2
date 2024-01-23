@@ -1,7 +1,6 @@
 import math
 
-# [shape]
-class Shape:
+class Shape2D:
     def __init__(self, name):
         self.name = name
 
@@ -10,6 +9,11 @@ class Shape:
 
     def area(self):
         raise NotImplementedError("area")
+
+# [shape]
+class Shape(Shape2D):
+    def __init__(self, name):
+        self.name = name
 
     def density(self, weight):
         return weight / self.area()
@@ -26,17 +30,16 @@ class Square(Shape):
     def area(self):
         return self.side ** 2
 
+class Line(Shape):
+    def __init__(self, name, length):
+        super().__init__(name)
+        self.length = length
 
-class Circle(Shape):
+class Circle(Shape2D):
     def __init__(self, name, radius):
         super().__init__(name)
         self.radius = radius
-
-    def perimeter(self):
-        return 2 * math.pi * self.radius
-
-    def area(self):
-        return math.pi * self.radius ** 2
+    
 
 # [use]
 examples = [Square("sq", 3), Circle("ci", 2)]

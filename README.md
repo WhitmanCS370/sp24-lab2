@@ -8,12 +8,12 @@ Enter your names here
 
 ## Team Roles
 Part 1 (SDX Ch. 2):
-* Driver's name
-* Navigator's name
+* Driver: Aidan von Buchwaldt
+* Navigator: Uli Raudales 
 
 Part 2 (SDX Ch. 4):
-* Driver's name
-* Navigator's name
+* Driver: Uli Raudales
+* Navigator: Aidan von Buchwaldt
 
 ## Answer these questions before you start doing the exercises
 Write your answers to the questions below.
