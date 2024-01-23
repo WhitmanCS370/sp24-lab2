@@ -1,5 +1,7 @@
 import math
 
+_log = True
+
 # [shapeD]
 def shape_new(name):
     return {
@@ -91,10 +93,19 @@ Circle = {
     "_new": circle_new
 }
 
+_method_cache = {}
 def find(cls, method_name):
+    global _method_cache
+    key = (cls["_classname"], method_name)
+    if key in _method_cache:
+        if _log: print(f"Calling cached method {key}")
+        return _method_cache[key]
     while cls is not None:
         if method_name in cls:
-            return cls[method_name]
+            if _log: print(f"Caching method {key}")
+            method = cls[method_name]
+            _method_cache[key] = method
+            return method
         cls = cls["_parent"]
     raise NotImplementedError("method_name")
 
@@ -121,5 +132,13 @@ for ex in examples:
     n = ex["name"]
     b = isinstance(ex, Shape2D)
     print(f"{n}: {b}")
-
+examples = [make(Square, "sq", 3), 
+            make(Circle, "ci", 2), 
+            make(Square, "sq", 5), 
+            make(Circle, "ci", 5)]
+for ex in examples:
+    n = ex["name"]
+    p = call(ex, "perimeter")
+    a = call(ex, "area")
+    print(f"{n}: perimeter:{p} area:{a}")
 # [/call]
