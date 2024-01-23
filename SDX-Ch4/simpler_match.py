@@ -5,6 +5,19 @@ class Match:
     def match(self, text):
         return self._do_match(text) == ""
 
+class Plus(Match):
+     def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _do_match(self, text): 
+        if text == "":
+            return None 
+        else:
+         for i in range(len(text) + 1): 
+            if self.rest._do_match(text[i:]) == "":
+                return ""
+        
+
 class Nothing(Match):
     def __init__(self, rest=None):
         self.rest = None
