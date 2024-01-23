@@ -59,3 +59,27 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+# [vowels]
+class Vowel(Match):
+    def __init__(self, ):
+    """
+    def _match(self, test, start):
+        count = 0
+        end = start + len(self.chars)
+        for char in test:
+            if char in "aeiou":
+                count++
+        if (count != 1):
+            return None
+        return self.rest._match(text, end)
+      """
+    def _match(self, test, start, count):
+        end = start + len(self.chars)
+        if (start == end):
+            if count != 1:
+                return None
+        else:
+          return self.rest._match(text, end, count)
+        
+
