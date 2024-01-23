@@ -17,6 +17,14 @@ Shape = {
     "_new": shape_new
 }
 
+def type(thing):
+    return thing["_classname"]
+
+def isinstance(thing): 
+    if thing["_parent"]: 
+        return True
+    return False 
+
 def shape2d_perimeter(thing, length):
     return call(thing, "perimeter")
 
@@ -37,6 +45,8 @@ Shape2D = {
     "_new" : shape2d_new
 
 }
+
+
 
 
 # [/shape]
@@ -89,11 +99,14 @@ Circle = {
 }
 
 def find(cls, method_name):
-    if cls is None:
-        raise NotImplementedError("method_name")
-    if method_name in cls:
-        return cls[method_name]
-    return find(cls["_parent"], method_name)
+    while True:
+        if cls is None:
+            raise NotImplementedError("method name")
+        if method_name in cls:
+            return cls[method_name]
+        else:
+            cls = cls["_parent"]
+
 
 def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
@@ -117,7 +130,6 @@ Line = {
     "_parent" : Shape, 
     "_new": line_new,
 }
-
 
 
 # [/call]
