@@ -18,6 +18,13 @@ Shape = {
 }
 # [/shape]
 
+def my_type(thing):
+    if thing["_parent"] == None:
+        return thing["_classname"]
+    else:
+        parent = thing["_parent"]
+        my_type(parent["_parent"])
+
 
 # line
 
