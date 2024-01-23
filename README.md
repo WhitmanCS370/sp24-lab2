@@ -4,16 +4,16 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+Luke, Terence
 
 ## Team Roles
 Part 1 (SDX Ch. 2):
-* Driver's name
-* Navigator's name
+* Driver: Terence
+* Navigator: Luke
 
 Part 2 (SDX Ch. 4):
-* Driver's name
-* Navigator's name
+* Driver: Luke
+* Navigator: Terence
 
 ## Answer these questions before you start doing the exercises
 Write your answers to the questions below.
