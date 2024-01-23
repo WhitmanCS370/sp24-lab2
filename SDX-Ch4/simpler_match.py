@@ -17,7 +17,8 @@ class Any(Match):
         super().__init__(rest)
 
     def _do_match(self, text):
-        for i in range(len(text) + 1):
+        #we have len(text) + 1 so it can iterate one last time through the whole text 
+        for i in range(len(text) + 1): 
             if self.rest._do_match(text[i:]) == "":
                 return ""
         return None
