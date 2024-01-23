@@ -4,6 +4,7 @@ _log = True
 
 # [shapeD]
 def shape_new(name):
+    Shape["count"] += 1
     return {
         "name": name,
         "_class": Shape
@@ -12,7 +13,8 @@ def shape_new(name):
 Shape = {
     "_classname": "Shape",
     "_parent": None,
-    "_new": shape_new
+    "_new": shape_new,
+    "count" : 0
 }
 # [/shape]
 
@@ -141,4 +143,6 @@ for ex in examples:
     p = call(ex, "perimeter")
     a = call(ex, "area")
     print(f"{n}: perimeter:{p} area:{a}")
+    
+print("Total shapes:", Shape["count"])
 # [/call]
