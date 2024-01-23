@@ -18,6 +18,19 @@ Shape = {
 }
 # [/shape]
 
+def shape2d_new(name):
+    return {
+        "name": name,
+        "_class": Shape2D
+    }
+
+Shape2D= {
+    "density": shape_density,
+    "_classname": "Shape",
+    "_parent": Shape,
+    "_new": shape2d_new
+}
+
 # [make]
 def make(cls, *args):
     return cls["_new"](*args)
@@ -65,6 +78,23 @@ Circle = {
     "_new": circle_new
 }
 
+def Line_perimeter(thing):
+    return thing["Length"] * 2
+
+def Line_new(name, Length):
+    return make(Shape, name) | {
+        "Length": Length,
+        "_class": Line
+    }
+
+Line = {
+    "perimeter": Line_perimeter,
+    "area": 0,
+    "_classname": "Line",
+    "_parent": Shape,
+    "_new": Line_new    
+}
+
 def find(cls, method_name):
     if cls is None:
         raise NotImplementedError("method_name")
@@ -72,9 +102,9 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
