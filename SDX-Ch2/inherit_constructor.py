@@ -72,7 +72,7 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, **kwargs):
     method = find(thing["_class"], method_name)
     return method(thing, *args)
 
