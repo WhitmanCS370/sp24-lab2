@@ -19,5 +19,14 @@ Part 2 (SDX Ch. 4):
 Write your answers to the questions below.
 
 * What were the main ideas from each chapter?
+Objects can be represented as dictionaries in Python
+
+Different patterns determine how you would write code.
+  
 * What questions did you have about the material in the chapters? What did you find confusing?
 
+How do classes implemented as dictionaries differ from real classes in Python?
+
+Inheritance???
+
+What are the performance and software complexity implications of having many small classes for the pattern matching exercise?
