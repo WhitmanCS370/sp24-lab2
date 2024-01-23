@@ -16,6 +16,29 @@ Shape = {
     "_parent": None,
     "_new": shape_new
 }
+
+def shape2d_perimeter(thing, length):
+    return call(thing, "perimeter")
+
+def shape2d_area(thing, length):
+    return call(thing, "area")
+
+def shape2d_new(name):
+    return {
+        "name": name, 
+        "_class" : Shape2D
+    }
+
+
+Shape2D = {
+    "perimeter" : shape2d_perimeter,
+    "area": shape2d_area, 
+    "_parent" : Shape, 
+    "_new" : shape2d_new
+
+}
+
+
 # [/shape]
 
 # [make]
@@ -40,7 +63,7 @@ Square = {
     "perimeter": square_perimeter,
     "area": square_area,
     "_classname": "Square",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": square_new
 }
 # [/square]
@@ -61,7 +84,7 @@ Circle = {
     "perimeter": circle_perimeter,
     "area": circle_area,
     "_classname": "Circle",
-    "_parent": Shape,
+    "_parent": Shape2D,
     "_new": circle_new
 }
 
@@ -72,9 +95,9 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
@@ -82,4 +105,19 @@ for ex in examples:
     n = ex["name"]
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
+
+def line_new(name, length): 
+    return make(Shape, name) |{
+        "length" : length,
+        "_class" : Line
+    }
+
+Line = {
+    "_classname": "Line",
+    "_parent" : Shape, 
+    "_new": line_new,
+}
+
+
+
 # [/call]
