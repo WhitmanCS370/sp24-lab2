@@ -4,9 +4,9 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+Janet Davis 
 
-## Team Roles
+## Team Roles - N/A
 Part 1 (SDX Ch. 2):
 * Driver's name
 * Navigator's name
@@ -14,6 +14,11 @@ Part 1 (SDX Ch. 2):
 Part 2 (SDX Ch. 4):
 * Driver's name
 * Navigator's name
+
+## SDX Ch. 2 notes
+The main idea from this chapter is that we can build our own class-object system with inheritance using dictionaries!
+
+I forgot the chapter covered `varargs`.
 
 ## Answer these questions before you start doing the exercises
 Write your answers to the questions below.
