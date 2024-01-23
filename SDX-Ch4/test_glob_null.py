@@ -1,4 +1,4 @@
-from glob_null import Any, Either, Lit, One
+from glob_null import Any, Either, Lit, One, OneOrMore
 from inspect import getmembers, isfunction
 import sys
 
@@ -68,6 +68,15 @@ def test_match_one():
     assert not One().match("xxxx")
     assert One(Lit("x")).match("ax")
     assert not One(Lit("x")).match("x")
+    
+def test_match_one_or_more():
+    assert OneOrMore().match("x")
+    assert OneOrMore().match("xxxx")
+    assert not OneOrMore().match("")
+    assert OneOrMore(Lit("x")).match("ax")
+    assert OneOrMore(Lit("x")).match("aaaax")    
+    assert not OneOrMore(Lit("x")).match("x")
+    
 
 if __name__ == '__main__':
     for f in getmembers(sys.modules[__name__], isfunction):
