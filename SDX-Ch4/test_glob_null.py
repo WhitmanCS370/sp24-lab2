@@ -1,4 +1,4 @@
-from glob_null import Any, Either, Lit, One, OneOrMore
+from glob_null import Any, Either, Lit, One, OneOrMore, Charset
 from inspect import getmembers, isfunction
 import sys
 
@@ -77,6 +77,16 @@ def test_match_one_or_more():
     assert OneOrMore(Lit("x")).match("aaaax")    
     assert not OneOrMore(Lit("x")).match("x")
     
+def test_charset():
+    assert Charset("?!.").match("?")
+    assert Charset("?!.").match("!")
+    assert Charset("?!.").match(".")
+    assert not Charset("?!.").match(" ")
+    assert not Charset("?!.").match("")
+    assert Any(Charset("?!.")).match("Hello!")
+    assert Any(Charset("?!.")).match("Hello?")
+    assert not Any(Charset("?!.")).match("Hello ")
+    assert not Any(Charset("?!.")).match("Hello")
 
 if __name__ == '__main__':
     for f in getmembers(sys.modules[__name__], isfunction):

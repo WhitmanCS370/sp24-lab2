@@ -76,3 +76,13 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+class Charset(Match):
+    def __init__(self, chars, rest=None):
+        super().__init__(rest)
+        self.chars = chars
+        
+    def _match(self, text, start):
+        if start < len(text) and text[start] in self.chars:
+            return self.rest._match(text, start+1)
+        return None
