@@ -17,7 +17,7 @@ class Any(Match):
         super().__init__(rest)
 
     def _do_match(self, text):
-        for i in range(len(text) + 1):
+        for i in range(len(text) + 1): # substring could start at the end of the text
             if self.rest._do_match(text[i:]) == "":
                 return ""
         return None

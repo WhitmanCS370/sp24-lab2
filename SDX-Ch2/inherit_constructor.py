@@ -83,3 +83,26 @@ for ex in examples:
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
 # [/call]
+
+def length(length):
+    return length
+
+def line_new(name, length):
+    return make(Shape, name) | {
+        "length": length,
+        "_class": Line
+    }
+
+Line = {
+    "length": length,
+    "_classname": "Line",
+    "_parent": Shape,
+    "_new": line_new
+}
+
+Shape2D = {
+    "_parent" : Shape
+}
+
+
+
