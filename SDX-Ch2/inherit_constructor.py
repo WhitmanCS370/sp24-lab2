@@ -72,9 +72,9 @@ def find(cls, method_name):
         return cls[method_name]
     return find(cls["_parent"], method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
@@ -83,3 +83,26 @@ for ex in examples:
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
 # [/call]
+
+def length(length):
+    return length
+
+def line_new(name, length):
+    return make(Shape, name) | {
+        "length": length,
+        "_class": Line
+    }
+
+Line = {
+    "length": length,
+    "_classname": "Line",
+    "_parent": Shape,
+    "_new": line_new
+}
+
+Shape2D = {
+    "_parent" : Shape
+}
+
+
+
