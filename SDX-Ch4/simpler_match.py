@@ -46,3 +46,11 @@ class Lit(Match):
         if text[:end] == self.chars:
             return self.rest._do_match(text[end:])
         return None
+    
+class OneOrMore(Match):
+    def __init__(self, chars, rest=None):
+        super().__init(rest)
+        self.chars = chars
+    
+    def _do_match(self, text):
+        
