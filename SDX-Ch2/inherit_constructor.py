@@ -14,9 +14,24 @@ Shape = {
     "density": shape_density,
     "_classname": "Shape",
     "_parent": None,
-    "_new": shape_new
+    "_new": shape_new,
+    "_type": "Shape"
 }
 # [/shape]
+
+# [shape2D]
+def shape2D_new(name):
+    return make(Shape, name) | {
+        "_class": Shape2D
+    }
+
+Shape2D = {
+    "_parent": Shape,
+    "_new": shape2D_new,
+    "_type": "Shape2D"
+}
+
+# [/shape2D]
 
 # [make]
 def make(cls, *args):
@@ -44,6 +59,23 @@ Square = {
     "_new": square_new
 }
 # [/square]
+
+# [line]
+def line_new(name, length):
+    return make(Shape2D, name) | {
+        "length": length,
+        "_class": Line
+    }
+
+def line_length(thing):
+    return thing["length"]
+
+Line = {
+    "length": line_length,
+    "_parent": Shape2D,
+    "_new": line_new
+}
+# [/line]
 
 def circle_perimeter(thing):
     return 2 * math.pi * thing["radius"]
