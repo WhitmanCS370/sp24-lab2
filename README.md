@@ -4,16 +4,14 @@ Lab 2, object-oriented programming and matching patterns. Adapted from [Software
 _January 23, 2024_
 
 ## Team Members
-Enter your names here
+Jack Allard
 
 ## Team Roles
 Part 1 (SDX Ch. 2):
-* Driver's name
-* Navigator's name
+Jack Allard
 
 Part 2 (SDX Ch. 4):
-* Driver's name
-* Navigator's name
+Jack Allard
 
 ## Answer these questions before you start doing the exercises
 Write your answers to the questions below.
