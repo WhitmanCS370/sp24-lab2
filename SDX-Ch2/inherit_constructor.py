@@ -1,5 +1,16 @@
 import math
 
+Shape = {
+    "density": shape_density,
+    "_classname": "Shape",
+    "_parent": None,
+    "_new": shape_new,
+    "_type": "Shape",
+    "_cache": {},
+    "class_method": shape_class_method,  # Class method
+    "static_method": static(shape_static_method),  # Static method
+}
+
 def shape_density(thing, weight):
     return weight / call(thing, "area")
 
@@ -10,29 +21,30 @@ def shape_new(name):
         "_class": Shape
     }
 
-Shape = {
-    "density": shape_density,
-    "_classname": "Shape",
-    "_parent": None,
-    "_new": shape_new,
-    "_type": "Shape",
-    "_cache": {}
-}
+def shape_class_method(cls, *args):
+    # Implement your class method here
+    pass
+
+def shape_static_method(*args):
+    # Implement your static method here
+    pass
+
+
 # [/shape]
 
 # [shape2D]
+Shape2D = {
+    "_parent": Shape,
+    "_new": shape2D_new,
+    "type": "Shape2D",
+    "_cache": {},
+}
+
+
 def shape2D_new(name):
     return make(Shape, name) | {
         "_class": Shape2D
     }
-
-Shape2D = {
-    "_parent": Shape,
-    "_new": shape2D_new,
-    "_type": "Shape2D",
-    "_cache": {}
-}
-
 # [/shape2D]
 
 # [make]
@@ -63,6 +75,14 @@ Square = {
 # [/square]
 
 # [line]
+Line = {
+    "length": line_length,
+    "_parent": Shape2D,
+    "_new": line_new,
+    "_type": "Line",
+    "_cache": {},
+}
+
 def line_new(name, length):
     return make(Shape2D, name) | {
         "length": length,
@@ -72,11 +92,6 @@ def line_new(name, length):
 def line_length(thing):
     return thing["length"]
 
-Line = {
-    "length": line_length,
-    "_parent": Shape2D,
-    "_new": line_new
-}
 # [/line]
 
 def circle_perimeter(thing):
@@ -113,20 +128,15 @@ def call(thing, method_name, *args, **kwargs):
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
 for ex in examples:
-    n = ex["name"]def shape_new(name):
+    n = ex["name"]
+    
+
+def shape_new(name):
         return {
             "name": name,
             "_class": Shape,
             "_type": lambda: "Shape",
         }
-
-Shape = {
-    "density": shape_density,
-    "_classname": "Shape",
-    "_parent": None,
-    "_new": shape_new,
-    "_type": lambda: "Shape"
-}
 
 def shape2D_new(name):
     return make(Shape, name) | {
@@ -134,13 +144,6 @@ def shape2D_new(name):
         "_type": lambda: "Shape2D",
     }
 
-Shape2D = {
-    "_parent": Shape,
-    "_new": shape2D_new,
-    "_length": shape2D_length,
-    "_type": lambda: "Shape2D",
-    "_cache": {}
-}
 d = call(ex, "density", 5)
 print(f"{n}: {d:.2f}")
 # [/call]
