@@ -1,5 +1,16 @@
 import math
 
+Shape = {
+    "density": shape_density,
+    "_classname": "Shape",
+    "_parent": None,
+    "_new": shape_new,
+    "_type": "Shape",
+    "_cache": {},
+    "class_method": shape_class_method,  # Class method
+    "static_method": static(shape_static_method),  # Static method
+}
+
 def shape_density(thing, weight):
     return weight / call(thing, "area")
 
@@ -10,13 +21,31 @@ def shape_new(name):
         "_class": Shape
     }
 
-Shape = {
-    "density": shape_density,
-    "_classname": "Shape",
-    "_parent": None,
-    "_new": shape_new
-}
+def shape_class_method(cls, *args):
+    # Implement your class method here
+    pass
+
+def shape_static_method(*args):
+    # Implement your static method here
+    pass
+
+
 # [/shape]
+
+# [shape2D]
+Shape2D = {
+    "_parent": Shape,
+    "_new": shape2D_new,
+    "type": "Shape2D",
+    "_cache": {},
+}
+
+
+def shape2D_new(name):
+    return make(Shape, name) | {
+        "_class": Shape2D
+    }
+# [/shape2D]
 
 # [make]
 def make(cls, *args):
@@ -45,6 +74,26 @@ Square = {
 }
 # [/square]
 
+# [line]
+Line = {
+    "length": line_length,
+    "_parent": Shape2D,
+    "_new": line_new,
+    "_type": "Line",
+    "_cache": {},
+}
+
+def line_new(name, length):
+    return make(Shape2D, name) | {
+        "length": length,
+        "_class": Line
+    }
+
+def line_length(thing):
+    return thing["length"]
+
+# [/line]
+
 def circle_perimeter(thing):
     return 2 * math.pi * thing["radius"]
 
@@ -64,22 +113,54 @@ Circle = {
     "_parent": Shape,
     "_new": circle_new
 }
-
 def find(cls, method_name):
-    if cls is None:
-        raise NotImplementedError("method_name")
-    if method_name in cls:
-        return cls[method_name]
-    return find(cls["_parent"], method_name)
+    current_cls = cls
+    while current_cls is not None:
+        if method_name in current_cls:
+            return current_cls[method_name]
+        current_cls = current_cls["_parent"]
+    raise NotImplementedError(method_name)
 
-def call(thing, method_name, *args):
+def call(thing, method_name, *args, **kwargs):
     method = find(thing["_class"], method_name)
-    return method(thing, *args)
+    return method(thing, *args, **kwargs)
 
 # [call]
 examples = [make(Square, "sq", 3), make(Circle, "ci", 2)]
 for ex in examples:
     n = ex["name"]
+    
+
+def shape_new(name):
+        return {
+            "name": name,
+            "_class": Shape,
+            "_type": lambda: "Shape",
+        }
+
+def shape2D_new(name):
+    return make(Shape, name) | {
+        "_class": Shape2D,
+        "_type": lambda: "Shape2D",
+    }
+
+# [search]
+def call(thing, method_name, *args):
+    method = find(thing["_class"], method_name)
+    return method(thing, *args)
+
+def find(cls, method_name):
+    while cls is not None:
+        if method_name in cls:
+            return cls[method_name]
+        cls = cls["_parent"]
+    raise NotImplementedError("method_name")
+# [/search]
+
+# [use]
+examples = [square_new("sq", 3), circle_new("ci", 2)]
+for ex in examples:
+    n = ex["name"]
     d = call(ex, "density", 5)
     print(f"{n}: {d:.2f}")
-# [/call]
+# [/use]
