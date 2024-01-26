@@ -72,19 +72,19 @@ class Any(Match):
 
 # [either]
 class Either(Match):
-    def __init__(self, left, right, rest=None):
+    def __init__(self, patterns, rest=None):
         super().__init__(rest)
-        self.left = left
-        self.right = right
+        self.patterns = patterns
 
     def _match(self, text, start):
-        for pat in [self.left, self.right]:
+        for pat in self.patterns:
             end = pat._match(text, start)
             if end is not None:
                 end = self.rest._match(text, end)
                 if end == len(text):
                     return end
         return None
+
 # [/either]
 
 # [lit]
@@ -124,3 +124,9 @@ def test_charset(self):
     self.assertEqual(matcher.match('u'), 1)
     self.assertEqual(matcher.match('b'), None)
     self.assertEqual(matcher.match('c'), None)
+
+def test_either(self):
+        matcher = Either([Lit('abc'), Lit('def')])
+        self.assertEqual(matcher._match('abcdef', 0), None)
+        self.assertEqual(matcher._match('abc', 0), 3)
+        self.assertEqual(matcher._match('def', 0), 3)
