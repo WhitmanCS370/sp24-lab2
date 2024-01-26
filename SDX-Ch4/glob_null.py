@@ -31,7 +31,18 @@ class Charset(Match):
             return start + 1
         else:
             return None
+class Range(Match):
+    def __init__(self, start, end, rest=None):
+        super().__init__(rest)
+        self.start = start
+        self.end = end
 
+    def _match(self, text, start):
+        if start < len(text) and self.start <= text[start] <= self.end:
+            return start + 1
+        else:
+
+            return None
 # [null]
 class Null(Match):
     def __init__(self):
