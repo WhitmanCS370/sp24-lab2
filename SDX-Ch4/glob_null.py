@@ -1,3 +1,5 @@
+import unittest
+
 # [parent]
 class Match:
     def __init__(self, rest):
@@ -97,3 +99,28 @@ class Lit(Match):
             return None
         return self.rest._match(text, end)
 # [/lit]
+
+# test cases
+def test_one_or_more(self):
+   matcher = OneOrMore(Charset('a'))
+   self.assertEqual(matcher.match('aaa'), 3)
+   self.assertEqual(matcher.match('baa'), None)
+   self.assertEqual(matcher.match('aab'), 2)
+
+def test_range(self):
+   matcher = Range('a', 'z')
+   self.assertEqual(matcher.match('a'), 1)
+   self.assertEqual(matcher.match('z'), 1)
+   self.assertEqual(matcher.match('m'), 1)
+   self.assertEqual(matcher.match('A'), None)
+   self.assertEqual(matcher.match('1'), None)
+
+def test_charset(self):
+    matcher = Charset('aeiou')
+    self.assertEqual(matcher.match('a'), 1)
+    self.assertEqual(matcher.match('e'), 1)
+    self.assertEqual(matcher.match('i'), 1)
+    self.assertEqual(matcher.match('o'), 1)
+    self.assertEqual(matcher.match('u'), 1)
+    self.assertEqual(matcher.match('b'), None)
+    self.assertEqual(matcher.match('c'), None)
