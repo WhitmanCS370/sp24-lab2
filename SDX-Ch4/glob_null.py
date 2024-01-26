@@ -8,6 +8,19 @@ class Match:
         return result == len(text)
 # [/parent]
 
+class OneOrMore(Match):
+    def __init__(self, rest=None):
+        super().__init__(rest)
+
+    def _match(self, text, start):
+        end = start
+        while True:
+            next_end = self.rest._match(text, end)
+            if next_end is None: # we need at least one match
+                break
+            end = next_end
+        return end if end > start else None
+
 # [null]
 class Null(Match):
     def __init__(self):
@@ -29,6 +42,9 @@ class Any(Match):
                 return end
         return None
 # [/any]
+
+# Why does the upper bound of the loop in the final version of Any run to len(text) + 1?
+#  A: in order to include the last character of the string in the text to be matched.
 
 # [either]
 class Either(Match):
