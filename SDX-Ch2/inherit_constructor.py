@@ -144,6 +144,23 @@ def shape2D_new(name):
         "_type": lambda: "Shape2D",
     }
 
-d = call(ex, "density", 5)
-print(f"{n}: {d:.2f}")
-# [/call]
+# [search]
+def call(thing, method_name, *args):
+    method = find(thing["_class"], method_name)
+    return method(thing, *args)
+
+def find(cls, method_name):
+    while cls is not None:
+        if method_name in cls:
+            return cls[method_name]
+        cls = cls["_parent"]
+    raise NotImplementedError("method_name")
+# [/search]
+
+# [use]
+examples = [square_new("sq", 3), circle_new("ci", 2)]
+for ex in examples:
+    n = ex["name"]
+    d = call(ex, "density", 5)
+    print(f"{n}: {d:.2f}")
+# [/use]
