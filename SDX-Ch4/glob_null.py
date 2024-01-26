@@ -21,6 +21,17 @@ class OneOrMore(Match):
             end = next_end
         return end if end > start else None
 
+class Charset(Match):
+    def __init__(self, charset, rest=None):
+        super().__init__(rest)
+        self.charset = set(charset)
+
+    def _match(self, text, start):
+        if start < len(text) and text[start] in self.charset:
+            return start + 1
+        else:
+            return None
+
 # [null]
 class Null(Match):
     def __init__(self):
